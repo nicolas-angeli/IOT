@@ -29,6 +29,8 @@
  ******************************************************************************/
 #include "sl_component_catalog.h"
 #include "sl_system_init.h"
+#include "sl_sensor_rht.h"
+#include "app_log.h"
 #include "app.h"
 #if defined(SL_CATALOG_POWER_MANAGER_PRESENT)
 #include "sl_power_manager.h"
@@ -45,10 +47,11 @@ int main(void)
   // Note that if the kernel is present, processing task(s) will be created by
   // this call.
   sl_system_init();
-
   // Initialize the application. For example, create periodic timer(s) or
   // task(s) if the kernel is present.
   app_init();
+  sl_sensor_rht_init();
+  app_log_info("%s : Sensor init \n", __FUNCTION__);
 
 #if defined(SL_CATALOG_KERNEL_PRESENT)
   // Start the kernel. Task(s) created in app_init() will start running.
@@ -68,4 +71,6 @@ int main(void)
 #endif
   }
 #endif // SL_CATALOG_KERNEL_PRESENT
+  sl_sensor_rht_deinit();
+  app_log_info("%s : Sensor de-init \n\n", __FUNCTION__);
 }

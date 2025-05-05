@@ -33,6 +33,9 @@
 #include "app.h"
 #include "app_log.h"
 
+#include <stdint.h>
+#include "sl_status.h"
+#include "sl_sensor_rht.h"
 
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
@@ -48,6 +51,7 @@ SL_WEAK void app_init(void)
   /////////////////////////////////////////////////////////////////////////////
 
   app_log_info("%s \n", __FUNCTION__);
+
 }
 
 /**************************************************************************//**
@@ -126,7 +130,11 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // Add additional event handlers here as your application requires!      //
     ///////////////////////////////////////////////////////////////////////////
     case sl_bt_evt_gatt_server_user_read_request_id:
-      app_log_info("%s: Temperature read!\n", __FUNCTION__);
+      uint32_t rh;
+      int32_t t;
+      sl_status_t read_status =  sl_sensor_rht_get(&rh, &t);
+      if (!read_status)
+        app_log_info("%s: Temperature read : \n", __FUNCTION__, &t);
       break;
     // -------------------------------
     // Default event handler.
