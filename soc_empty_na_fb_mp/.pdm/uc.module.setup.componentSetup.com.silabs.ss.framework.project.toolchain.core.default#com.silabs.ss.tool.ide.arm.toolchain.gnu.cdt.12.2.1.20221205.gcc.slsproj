@@ -134,6 +134,14 @@
             <file name="sl_debug_swo.h" uri="studio:/sdk/platform/driver/debug/inc/sl_debug_swo.h"/>
           </folder>
         </folder>
+        <folder name="i2cspm">
+          <folder name="src">
+            <file name="sl_i2cspm.c" uri="studio:/sdk/platform/driver/i2cspm/src/sl_i2cspm.c"/>
+          </folder>
+          <folder name="inc">
+            <file name="sl_i2cspm.h" uri="studio:/sdk/platform/driver/i2cspm/inc/sl_i2cspm.h"/>
+          </folder>
+        </folder>
       </folder>
       <folder name="service">
         <folder name="device_init">
@@ -460,6 +468,14 @@
             <file name="sl_bt_in_place_ota_dfu.c" uri="studio:/sdk/app/bluetooth/common/in_place_ota_dfu/sl_bt_in_place_ota_dfu.c"/>
             <file name="sl_bt_in_place_ota_dfu.h" uri="studio:/sdk/app/bluetooth/common/in_place_ota_dfu/sl_bt_in_place_ota_dfu.h"/>
           </folder>
+          <folder name="sensor_rht">
+            <file name="sl_sensor_rht.c" uri="studio:/sdk/app/bluetooth/common/sensor_rht/sl_sensor_rht.c"/>
+            <file name="sl_sensor_rht.h" uri="studio:/sdk/app/bluetooth/common/sensor_rht/sl_sensor_rht.h"/>
+          </folder>
+          <folder name="sensor_select">
+            <file name="sl_sensor_select.c" uri="studio:/sdk/app/bluetooth/common/sensor_select/sl_sensor_select.c"/>
+            <file name="sl_sensor_select.h" uri="studio:/sdk/app/bluetooth/common/sensor_select/sl_sensor_select.h"/>
+          </folder>
         </folder>
       </folder>
     </folder>
@@ -540,10 +556,12 @@
         <folder name="src">
           <file name="sl_board_init.c" uri="studio:/sdk/hardware/board/src/sl_board_init.c"/>
           <file name="sl_board_control_gpio.c" uri="studio:/sdk/hardware/board/src/sl_board_control_gpio.c"/>
+          <file name="brd4166a_support.c" uri="studio:/sdk/hardware/board/src/brd4166a_support.c"/>
         </folder>
         <folder name="inc">
           <file name="sl_board_control.h" uri="studio:/sdk/hardware/board/inc/sl_board_control.h"/>
           <file name="sl_board_init.h" uri="studio:/sdk/hardware/board/inc/sl_board_init.h"/>
+          <file name="brd4166a_support.h" uri="studio:/sdk/hardware/board/inc/brd4166a_support.h"/>
         </folder>
       </folder>
       <folder name="driver">
@@ -565,6 +583,14 @@
             <folder name="sl_mx25_flash_shutdown_usart">
               <file name="sl_mx25_flash_shutdown.h" uri="studio:/sdk/hardware/driver/mx25_flash_shutdown/inc/sl_mx25_flash_shutdown_usart/sl_mx25_flash_shutdown.h"/>
             </folder>
+          </folder>
+        </folder>
+        <folder name="si70xx">
+          <folder name="src">
+            <file name="sl_si70xx.c" uri="studio:/sdk/hardware/driver/si70xx/src/sl_si70xx.c"/>
+          </folder>
+          <folder name="inc">
+            <file name="sl_si70xx.h" uri="studio:/sdk/hardware/driver/si70xx/inc/sl_si70xx.h"/>
           </folder>
         </folder>
       </folder>
@@ -780,6 +806,7 @@
   <includePath uri="studio:/sdk/platform/emdrv/common/inc"/>
   <includePath uri="studio:/sdk/platform/emlib/inc"/>
   <includePath uri="studio:/sdk/app/bluetooth/common/gatt_service_device_information"/>
+  <includePath uri="studio:/sdk/platform/driver/i2cspm/inc"/>
   <includePath uri="studio:/sdk/app/bluetooth/common/in_place_ota_dfu"/>
   <includePath uri="studio:/sdk/platform/service/iostream/inc"/>
   <includePath uri="studio:/sdk/platform/security/sl_component/sl_mbedtls_support/config"/>
@@ -802,6 +829,9 @@
   <includePath uri="studio:/sdk/platform/radio/rail_lib/plugin/pa-conversions/efr32xg1x"/>
   <includePath uri="studio:/sdk/platform/radio/rail_lib/plugin/rail_util_power_manager_init"/>
   <includePath uri="studio:/sdk/platform/radio/rail_lib/plugin/rail_util_pti"/>
+  <includePath uri="studio:/sdk/app/bluetooth/common/sensor_rht"/>
+  <includePath uri="studio:/sdk/app/bluetooth/common/sensor_select"/>
+  <includePath uri="studio:/sdk/hardware/driver/si70xx/inc"/>
   <includePath uri="studio:/sdk/util/silicon_labs/silabs_core/memory_manager"/>
   <includePath uri="studio:/sdk/platform/common/toolchain/inc"/>
   <includePath uri="studio:/sdk/platform/service/system/inc"/>
@@ -822,6 +852,7 @@
   <macroDefinition name="MBEDTLS_PSA_CRYPTO_CONFIG_FILE" value="&lt;psa_crypto_config.h>"/>
   <macroDefinition name="SL_RAIL_LIB_MULTIPROTOCOL_SUPPORT" value="0"/>
   <macroDefinition name="SL_RAIL_UTIL_PA_CONFIG_HEADER" value="&lt;sl_rail_util_pa_config.h>"/>
+  <macroDefinition name="BRD4166A_SUPPORT"/>
   <libraryFile uri="studio:/sdk/protocol/bluetooth/lib/EFR32XG12/GCC/binapploader.o"/>
   <libraryFile uri="studio:/sdk/protocol/bluetooth/bgcommon/lib/libbgcommon_efr32xg12_gcc_release.a"/>
   <libraryFile uri="studio:/sdk/protocol/bluetooth/bgstack/ll/lib/libbluetooth_controller_efr32xg12_gcc_release.a"/>

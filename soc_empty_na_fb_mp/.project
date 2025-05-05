@@ -31,6 +31,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>gecko_sdk_4.4.6/hardware/board/inc/brd4166a_support.h</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/hardware/board/inc/brd4166a_support.h</locationURI>
+		</link>
+		<link>
 			<name>gecko_sdk_4.4.6/hardware/board/inc/sl_board_control.h</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/hardware/board/inc/sl_board_control.h</locationURI>
@@ -39,6 +44,11 @@
 			<name>gecko_sdk_4.4.6/hardware/board/inc/sl_board_init.h</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/hardware/board/inc/sl_board_init.h</locationURI>
+		</link>
+		<link>
+			<name>gecko_sdk_4.4.6/hardware/board/src/brd4166a_support.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/hardware/board/src/brd4166a_support.c</locationURI>
 		</link>
 		<link>
 			<name>gecko_sdk_4.4.6/hardware/board/src/sl_board_control_gpio.c</name>
@@ -681,6 +691,26 @@
 			<locationURI>STUDIO_SDK_LOC/app/bluetooth/common/in_place_ota_dfu/sl_bt_in_place_ota_dfu.h</locationURI>
 		</link>
 		<link>
+			<name>gecko_sdk_4.4.6/app/bluetooth/common/sensor_rht/sl_sensor_rht.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/app/bluetooth/common/sensor_rht/sl_sensor_rht.c</locationURI>
+		</link>
+		<link>
+			<name>gecko_sdk_4.4.6/app/bluetooth/common/sensor_rht/sl_sensor_rht.h</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/app/bluetooth/common/sensor_rht/sl_sensor_rht.h</locationURI>
+		</link>
+		<link>
+			<name>gecko_sdk_4.4.6/app/bluetooth/common/sensor_select/sl_sensor_select.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/app/bluetooth/common/sensor_select/sl_sensor_select.c</locationURI>
+		</link>
+		<link>
+			<name>gecko_sdk_4.4.6/app/bluetooth/common/sensor_select/sl_sensor_select.h</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/app/bluetooth/common/sensor_select/sl_sensor_select.h</locationURI>
+		</link>
+		<link>
 			<name>gecko_sdk_4.4.6/app/common/util/app_assert/app_assert.h</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/app/common/util/app_assert/app_assert.h</locationURI>
@@ -729,6 +759,16 @@
 			<name>gecko_sdk_4.4.6/hardware/driver/configuration_over_swo/src/sl_cos.c</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/hardware/driver/configuration_over_swo/src/sl_cos.c</locationURI>
+		</link>
+		<link>
+			<name>gecko_sdk_4.4.6/hardware/driver/si70xx/inc/sl_si70xx.h</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/hardware/driver/si70xx/inc/sl_si70xx.h</locationURI>
+		</link>
+		<link>
+			<name>gecko_sdk_4.4.6/hardware/driver/si70xx/src/sl_si70xx.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/hardware/driver/si70xx/src/sl_si70xx.c</locationURI>
 		</link>
 		<link>
 			<name>gecko_sdk_4.4.6/platform/CMSIS/Core/Include/cmsis_compiler.h</name>
@@ -789,6 +829,16 @@
 			<name>gecko_sdk_4.4.6/platform/driver/debug/src/sl_debug_swo.c</name>
 			<type>1</type>
 			<locationURI>STUDIO_SDK_LOC/platform/driver/debug/src/sl_debug_swo.c</locationURI>
+		</link>
+		<link>
+			<name>gecko_sdk_4.4.6/platform/driver/i2cspm/inc/sl_i2cspm.h</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/platform/driver/i2cspm/inc/sl_i2cspm.h</locationURI>
+		</link>
+		<link>
+			<name>gecko_sdk_4.4.6/platform/driver/i2cspm/src/sl_i2cspm.c</name>
+			<type>1</type>
+			<locationURI>STUDIO_SDK_LOC/platform/driver/i2cspm/src/sl_i2cspm.c</locationURI>
 		</link>
 		<link>
 			<name>gecko_sdk_4.4.6/platform/emdrv/common/inc/ecode.h</name>
