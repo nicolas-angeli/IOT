@@ -77,6 +77,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // This event indicates the device has started and the radio is ready.
     // Do not call any stack command before receiving this boot event!
     case sl_bt_evt_system_boot_id:
+
       // Create an advertising set.
       sc = sl_bt_advertiser_create_set(&advertising_set_handle);
       app_assert_status(sc);
@@ -103,11 +104,13 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // -------------------------------
     // This event indicates that a new connection was opened.
     case sl_bt_evt_connection_opened_id:
+      app_log_info("%s: Connection opened\n", __FUNCTION__);
       break;
 
     // -------------------------------
     // This event indicates that a connection was closed.
     case sl_bt_evt_connection_closed_id:
+      app_log_info("%s: Connection closed\n", __FUNCTION__);
       // Generate data for advertising
       sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
                                                  sl_bt_advertiser_general_discoverable);
@@ -122,7 +125,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     ///////////////////////////////////////////////////////////////////////////
     // Add additional event handlers here as your application requires!      //
     ///////////////////////////////////////////////////////////////////////////
-
+    case sl_bt_evt_gatt_server_user_read_request_id:
+      app_log_info("%s: Temperature read!\n", __FUNCTION__);
+      break;
     // -------------------------------
     // Default event handler.
     default:
