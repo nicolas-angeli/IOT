@@ -134,7 +134,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       int32_t t;
       sl_status_t read_status =  sl_sensor_rht_get(&rh, &t);
       if (!read_status)
-        app_log_info("%s: Temperature read : \n", __FUNCTION__, &t);
+        app_log_info("%s: Temperature read : %d\n", __FUNCTION__, t);
       break;
     // -------------------------------
     // Default event handler.
