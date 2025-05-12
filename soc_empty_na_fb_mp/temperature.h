@@ -9,6 +9,6 @@
 #define TEMPERATURE_H_
 
 //int16_t convert_to_BLE_unit(int32_t raw_temp);
-void read_temperature(void);
+sl_status_t read_temperature(int32_t *temp_addr);
 
 #endif /* TEMPERATURE_H_ */

@@ -18,7 +18,7 @@
 //   return (int16_t)(raw_temp * M * pow((double)10, (double) d));
 // }
 
-void read_temperature() {
+sl_status_t read_temperature(int32_t *temp_addr) {
   uint32_t rh;
   int32_t t;
 
@@ -26,5 +26,7 @@ void read_temperature() {
   if (!read_status) {
     t = t/10;
     app_log_info("%s: Temperature read (BLE unit : raw/10) : %ld\n", __FUNCTION__, t);
+    *temp_addr = t;
   }
+  return read_status;
 }

@@ -32,6 +32,7 @@
 #include "sl_bluetooth.h"
 #include "app.h"
 #include "app_log.h"
+#include "gatt_db.h"
 
 #include "temperature.h"
 #include <stdint.h>
@@ -74,6 +75,7 @@ SL_WEAK void app_process_action(void)
  *
  * @param[in] evt Event coming from the Bluetooth stack.
  *****************************************************************************/
+static uint8_t connection_handle = SL_BT_INVALID_CONNECTION_HANDLE;
 
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
@@ -110,7 +112,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // -------------------------------
     // This event indicates that a new connection was opened.
     case sl_bt_evt_connection_opened_id:
+      connection_handle = evt->data.evt_connection_opened.connection;
       app_log_info("%s: Connection opened\n", __FUNCTION__);
+      app_log_info("Handler : 0x%x\n", connection_handle);
       break;
 
     // -------------------------------
@@ -121,6 +125,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       sc = sl_bt_legacy_advertiser_generate_data(advertising_set_handle,
                                                  sl_bt_advertiser_general_discoverable);
       app_assert_status(sc);
+      connection_handle = SL_BT_INVALID_CONNECTION_HANDLE;
 
       // Restart advertising after client has disconnected.
       sc = sl_bt_legacy_advertiser_start(advertising_set_handle,
@@ -132,7 +137,17 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // Add additional event handlers here as your application requires!      //
     ///////////////////////////////////////////////////////////////////////////
     case sl_bt_evt_gatt_server_user_read_request_id:
-      read_temperature();
+      int32_t temp;
+      size_t value_len = sizeof(temp);
+      uint16_t sent_len;
+
+      uint8_t chan = evt->data.evt_gatt_server_user_read_request.connection;
+
+      read_temperature(&temp);
+      app_log_info("%s: Temperature (via address) %u\nHandler = 0x%x", __FUNCTION__, temp, chan);
+
+      sc = sl_bt_gatt_server_send_user_read_response(chan, gattdb_temperature, 0, value_len, (uint8_t*) &temp, &sent_len);
+
       break;
     // -------------------------------
     // Default event handler.
