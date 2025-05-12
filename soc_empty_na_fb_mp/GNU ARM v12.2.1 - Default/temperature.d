@@ -1,12 +1,28 @@
-app.o: ../app.c \
+temperature.o: ../temperature.c \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\toolchain\inc\sl_gcc_preinclude.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emlib\inc\em_common.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\app\common\util\app_log\app_log.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\iostream\inc\sl_iostream.h \
+ C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_component_catalog.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_enum.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_status.h \
+ C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_iostream_handles.h \
+ C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_iostream_init_usart_instances.h \
+ C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_component_catalog.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\power_manager\inc\sl_power_manager.h \
+ C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/sl_power_manager_config.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_slist.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\sleeptimer\inc\sl_sleeptimer.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_common.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_assert.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\cmsis_compiler.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\cmsis_gcc.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emlib\inc\em_core_generic.h \
+ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\iostream\inc\sl_iostream_uart.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\em_device.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\efr32mg12p332f1024gl125.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\core_cm4.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\cmsis_version.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\cmsis_compiler.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\cmsis_gcc.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\mpu_armv7.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\system_efr32mg12p.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\efr32mg12p_msc.h \
@@ -55,49 +71,38 @@ app.o: ../app.c \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\efr32mg12p_dmareq.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\efr32mg12p_af_ports.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\efr32mg12p_af_pins.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_common.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_assert.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\app\common\util\app_assert\app_assert.h \
- C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_component_catalog.h \
- C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/app_assert_config.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_status.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\app\common\util\app_log\app_log.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\iostream\inc\sl_iostream.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_enum.h \
- C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_iostream_handles.h \
- C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_iostream_init_usart_instances.h \
- C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_component_catalog.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\power_manager\inc\sl_power_manager.h \
- C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/sl_power_manager_config.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_slist.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\sleeptimer\inc\sl_sleeptimer.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emlib\inc\em_core_generic.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\iostream\inc\sl_iostream_uart.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\iostream\inc\sl_iostream.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emdrv\dmadrv\inc\dmadrv.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emdrv\common\inc\ecode.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emlib\inc\em_ldma.h \
  C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/dmadrv_config.h \
  C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/app_log_config.h \
- C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_bluetooth.h \
- C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/sl_bluetooth_config.h \
- C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/sl_bluetooth_connection_config.h \
- C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/sl_bluetooth_advertiser_config.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\protocol\bluetooth\inc\sl_bt_stack_config.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\protocol\bluetooth\inc\sl_bt_ll_config.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\protocol\bluetooth\inc\sl_bt_api.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\protocol\bluetooth\inc\sl_bgapi.h \
- c:\users\matth\simplicitystudio\sdks\gecko_sdk\protocol\bluetooth\inc\sl_bt_api_compatibility.h \
  ../app.h ../temperature.h \
  c:\users\matth\simplicitystudio\sdks\gecko_sdk\app\bluetooth\common\sensor_rht\sl_sensor_rht.h
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\toolchain\inc\sl_gcc_preinclude.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emlib\inc\em_common.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\app\common\util\app_log\app_log.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\iostream\inc\sl_iostream.h:
+C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_component_catalog.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_enum.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_status.h:
+C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_iostream_handles.h:
+C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_iostream_init_usart_instances.h:
+C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_component_catalog.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\power_manager\inc\sl_power_manager.h:
+C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/sl_power_manager_config.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_slist.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\sleeptimer\inc\sl_sleeptimer.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_common.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_assert.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\cmsis_compiler.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\cmsis_gcc.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emlib\inc\em_core_generic.h:
+c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\iostream\inc\sl_iostream_uart.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\em_device.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\efr32mg12p332f1024gl125.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\core_cm4.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\cmsis_version.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\cmsis_compiler.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\cmsis_gcc.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\cmsis\core\include\mpu_armv7.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\system_efr32mg12p.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\efr32mg12p_msc.h:
@@ -146,39 +151,12 @@ c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\efr32mg12p_dmareq.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\efr32mg12p_af_ports.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\device\siliconlabs\efr32mg12p\include\efr32mg12p_af_pins.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_common.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_assert.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\app\common\util\app_assert\app_assert.h:
-C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_component_catalog.h:
-C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/app_assert_config.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_status.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\app\common\util\app_log\app_log.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\iostream\inc\sl_iostream.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_enum.h:
-C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_iostream_handles.h:
-C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_iostream_init_usart_instances.h:
-C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_component_catalog.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\power_manager\inc\sl_power_manager.h:
-C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/sl_power_manager_config.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\common\inc\sl_slist.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\sleeptimer\inc\sl_sleeptimer.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emlib\inc\em_core_generic.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\iostream\inc\sl_iostream_uart.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\service\iostream\inc\sl_iostream.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emdrv\dmadrv\inc\dmadrv.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emdrv\common\inc\ecode.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\platform\emlib\inc\em_ldma.h:
 C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/dmadrv_config.h:
 C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/app_log_config.h:
-C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\autogen/sl_bluetooth.h:
-C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/sl_bluetooth_config.h:
-C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/sl_bluetooth_connection_config.h:
-C:\Users\matth\SimplicityStudio\v5_workspace\IOT\soc_empty_na_fb_mp\config/sl_bluetooth_advertiser_config.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\protocol\bluetooth\inc\sl_bt_stack_config.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\protocol\bluetooth\inc\sl_bt_ll_config.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\protocol\bluetooth\inc\sl_bt_api.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\protocol\bluetooth\inc\sl_bgapi.h:
-c:\users\matth\simplicitystudio\sdks\gecko_sdk\protocol\bluetooth\inc\sl_bt_api_compatibility.h:
 ../app.h:
 ../temperature.h:
 c:\users\matth\simplicitystudio\sdks\gecko_sdk\app\bluetooth\common\sensor_rht\sl_sensor_rht.h:
