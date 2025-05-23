@@ -25,7 +25,7 @@ sl_status_t read_temperature(int32_t *temp_addr) {
   sl_status_t read_status =  sl_sensor_rht_get(&rh, &t);
   if (!read_status) {
     t = t/10;
-    app_log_info("%s: Temperature read (BLE unit : raw/10) : %ld\n", __FUNCTION__, t);
+    //app_log_info("%s: Temperature read (BLE unit : raw/10) : %ld\n", __FUNCTION__, t);
     *temp_addr = t;
   }
   return read_status;
