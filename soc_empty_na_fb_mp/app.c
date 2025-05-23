@@ -39,9 +39,14 @@
 #include "sl_status.h"
 #include "sl_sensor_rht.h"
 #include "math.h"
+#include "stdbool.h"
 
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
+
+bool notify_mode = false;
+uint8_t step = 0;
+sl_sleeptimer_timer_handle_t handle;
 
 /**************************************************************************//**
  * Application Init.
@@ -76,6 +81,12 @@ SL_WEAK void app_process_action(void)
  * @param[in] evt Event coming from the Bluetooth stack.
  *****************************************************************************/
 static uint8_t connection_handle = SL_BT_INVALID_CONNECTION_HANDLE;
+
+void timer_callback(sl_sleeptimer_timer_handle_t *handle, void *data){
+  uint8_t* ptr = data;
+  *ptr+=1;
+  app_log_info("%s: Timer step %d\n", __FUNCTION__, *ptr);
+}
 
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
@@ -146,7 +157,7 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       if(evt->data.evt_gatt_server_user_read_request.characteristic == gattdb_temperature) {
               app_log_info("%s: Temperature requested\n", __FUNCTION__);
               sl_status_t status = read_temperature(&BLE_raw_temperature);
-              app_log_info("%s: Read temperature: %d with status %lu\n", __FUNCTION__, BLE_raw_temperature, status);
+              app_log_info("%s: Read temperature: %ld with status %lu\n", __FUNCTION__, BLE_raw_temperature, status);
               app_log_info("%s: Handler = 0x%x\n", __FUNCTION__, chan);
 
 
@@ -156,7 +167,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       break;
     case sl_bt_evt_gatt_server_characteristic_status_id :
-      app_log_info("NOTIFY activated\n");
+      app_log_info("NOTIFY status: %d\n", notify_mode);
+      if(notify_mode) sl_sleeptimer_start_periodic_timer_ms(&handle, 1, timer_callback, &step, 0, 0);
+      else  sl_sleeptimer_stop_timer(&handle);
       break;
     // -------------------------------
     // Default event handler.
