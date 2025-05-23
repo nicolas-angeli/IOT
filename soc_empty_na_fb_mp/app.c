@@ -137,11 +137,11 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     // Add additional event handlers here as your application requires!      //
     ///////////////////////////////////////////////////////////////////////////
     case sl_bt_evt_gatt_server_user_read_request_id:
-      size_t value_len = sizeof(temp);
+      int32_t BLE_raw_temperature;
+      size_t value_len = sizeof(BLE_raw_temperature);
       uint16_t sent_len;
 
       uint8_t chan = evt->data.evt_gatt_server_user_read_request.connection;
-      int32_t BLE_raw_temperature;
 
       if(evt->data.evt_gatt_server_user_read_request.characteristic == gattdb_temperature) {
               app_log_info("%s: Temperature requested\n", __FUNCTION__);
@@ -154,6 +154,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       }
 
 
+      break;
+    case sl_bt_evt_gatt_server_characteristic_status_id :
+      app_log_info("NOTIFY activated\n");
       break;
     // -------------------------------
     // Default event handler.
