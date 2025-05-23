@@ -27,6 +27,8 @@
  * 3. This notice may not be removed or altered from any source distribution.
  *
  ******************************************************************************/
+#define TEMPERATURE_TIMER_SIGNAL (1<<0)
+
 #include "em_common.h"
 #include "app_assert.h"
 #include "sl_bluetooth.h"
@@ -40,7 +42,6 @@
 #include "sl_sensor_rht.h"
 #include "math.h"
 #include "stdbool.h"
-
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
 
@@ -86,7 +87,9 @@ void timer_callback(sl_sleeptimer_timer_handle_t *handle, void *data){
   uint8_t* ptr = data;
   *ptr+=1;
   app_log_info("%s: Timer step %d\n", __FUNCTION__, *ptr);
+  sl_bt_external_signal(TEMPERATURE_TIMER_SIGNAL);
 }
+
 
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
@@ -185,7 +188,21 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
               evt->data.evt_gatt_server_characteristic_status.characteristic, evt->data.evt_gatt_server_characteristic_status.status_flags);
       }
       break;
-    // -------------------------------
+    case sl_bt_evt_system_external_signal_id :
+      sl_status_t notification_status;
+      int32_t notif_temp;
+      int value_size = sizeof(notif_temp);
+
+      //Lecture de la température
+      sl_status_t status = read_temperature(&notif_temp);
+
+      //Envoi de la notification
+      if (evt->data.evt_system_external_signal.extsignals == TEMPERATURE_TIMER_SIGNAL) {
+        notification_status = sl_bt_gatt_server_send_notification(connection_handle, gattdb_temperature, value_size,(uint8_t*) &notif_temp);
+        if (notification_status == SL_STATUS_OK) app_log_info("Temperature notification send : %d\n", notif_temp);
+      }
+      break;
+      // -------------------------------
     // Default event handler.
     default:
       break;
