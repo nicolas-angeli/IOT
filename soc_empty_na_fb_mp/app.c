@@ -143,11 +143,17 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
 
       uint8_t chan = evt->data.evt_gatt_server_user_read_request.connection;
 
-      read_temperature(&temp);
-      app_log_info("%s: Temperature (via address) %u\nHandler = 0x%x", __FUNCTION__, temp, chan);
+      if(evt->data.evt_gatt_server_user_read_request.characteristic == gattdb_temperature) {
+              app_log_info("%s: Temperature requested\n", __FUNCTION__);
+              sl_status_t status = read_temperature(&BLE_raw_temperature);
+              app_log_info("%s: Read temperature: %.2f with status %lu\n", __FUNCTION__, (double) (BLE_raw_temperature/100), status);
+              app_log_info("%s: Handler = 0x%x\n", __FUNCTION__, chan);
+      }
 
       sc = sl_bt_gatt_server_send_user_read_response(chan, gattdb_temperature, 0, value_len, (uint8_t*) &temp, &sent_len);
+||||
 
+||||
       break;
     // -------------------------------
     // Default event handler.
