@@ -42,6 +42,8 @@
 #include "sl_sensor_rht.h"
 #include "math.h"
 #include "stdbool.h"
+
+#include "sl_simple_led_instances.h"
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
 
@@ -85,7 +87,7 @@ static uint8_t connection_handle = SL_BT_INVALID_CONNECTION_HANDLE;
 
 void timer_callback(sl_sleeptimer_timer_handle_t *handle, void *data){
   uint8_t* ptr = data;
-  *ptr+=1;
+  *ptr += 1;
   app_log_info("%s: Timer step %d\n", __FUNCTION__, *ptr);
   sl_bt_external_signal(TEMPERATURE_TIMER_SIGNAL);
 }
@@ -147,9 +149,9 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       app_assert_status(sc);
       break;
 
-    ///////////////////////////////////////////////////////////////////////////
-    // Add additional event handlers here as your application requires!      //
-    ///////////////////////////////////////////////////////////////////////////
+      //////////////////////////////////////////////////////////////////////
+     // Add additional event handlers here as your application requires! //
+    //////////////////////////////////////////////////////////////////////
     case sl_bt_evt_gatt_server_user_read_request_id:
       int32_t BLE_raw_temperature;
       size_t value_len = sizeof(BLE_raw_temperature);
@@ -162,8 +164,6 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
               sl_status_t status = read_temperature(&BLE_raw_temperature);
               app_log_info("%s: Read temperature: %d with status %lu\n", __FUNCTION__, BLE_raw_temperature, status);
               app_log_info("%s: Handler = 0x%x\n", __FUNCTION__, chan);
-
-
 
               sc = sl_bt_gatt_server_send_user_read_response(chan, gattdb_temperature, 0, value_len, (uint8_t*) &BLE_raw_temperature, &sent_len);
       }
