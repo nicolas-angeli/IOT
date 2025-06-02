@@ -44,6 +44,7 @@
 #include "stdbool.h"
 
 #include "sl_simple_led_instances.h"
+#include "sl_bt_types.h"
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
 
@@ -91,7 +92,6 @@ void timer_callback(sl_sleeptimer_timer_handle_t *handle, void *data){
   app_log_info("%s: Timer step %d\n", __FUNCTION__, *ptr);
   sl_bt_external_signal(TEMPERATURE_TIMER_SIGNAL);
 }
-
 
 void sl_bt_on_event(sl_bt_msg_t *evt)
 {
@@ -199,8 +199,36 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       //Envoi de la notification
       if (evt->data.evt_system_external_signal.extsignals == TEMPERATURE_TIMER_SIGNAL) {
         notification_status = sl_bt_gatt_server_send_notification(connection_handle, gattdb_temperature, value_size,(uint8_t*) &notif_temp);
-        if (notification_status == SL_STATUS_OK) app_log_info("Temperature notification send : %d\n", notif_temp);
+        if (notification_status == SL_STATUS_OK) app_log_info("Temperature notification send : %ld\n", notif_temp);
       }
+      break;
+    case sl_bt_evt_gatt_server_user_write_request_id :
+      uint8_t digital;
+      const uint8array *write_value = &evt->data.evt_gatt_server_user_write_request.value;//Q23
+
+      digital = write_value->data[0];
+      app_log_info("Write requested : %d\n", (int)digital);
+      sl_simple_led_init_instances();
+
+      switch (digital){//Q27
+        case 0 ://Inactive
+          sl_simple_led_turn_off(sl_led_led0.context);
+          app_log_info("LEDs off\n");
+          break;
+        case 1 ://Active
+          sl_simple_led_turn_on(sl_led_led0.context);
+          app_log_info("LEDs on\n");
+          break;
+        default ://Autres cas
+          app_log_info("Cas non pris en charge\n");
+          break;
+      }
+
+      sc = sl_bt_gatt_server_send_user_write_response(
+        evt->data.evt_gatt_server_user_write_request.connection,
+        evt->data.evt_gatt_server_user_write_request.characteristic,
+        0
+      );
       break;
       // -------------------------------
     // Default event handler.
