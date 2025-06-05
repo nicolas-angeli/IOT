@@ -51,6 +51,7 @@ int main(void)
   // task(s) if the kernel is present.
   app_init();
   sl_sensor_rht_init();
+  sl_sensor_light_init();
   app_log_info("%s : Sensor init \n", __FUNCTION__);
 
 #if defined(SL_CATALOG_KERNEL_PRESENT)
@@ -72,5 +73,6 @@ int main(void)
   }
 #endif // SL_CATALOG_KERNEL_PRESENT
   sl_sensor_rht_deinit();
+  sl_sensor_light_deinit();
   app_log_info("%s : Sensor de-init \n\n", __FUNCTION__);
 }

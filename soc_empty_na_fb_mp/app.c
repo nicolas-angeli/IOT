@@ -28,6 +28,9 @@
  *
  ******************************************************************************/
 #define TEMPERATURE_TIMER_SIGNAL (1<<0)
+#define LUMINANCE_TIMER_SIGNAL (1<<0)
+
+#define LUX_TO_WATT_M2_DIVISOR 683
 
 #include "em_common.h"
 #include "app_assert.h"
@@ -45,6 +48,10 @@
 
 #include "sl_simple_led_instances.h"
 #include "sl_bt_types.h"
+#include "sl_bt_api.h"
+
+#include "irradiance.h"
+
 // The advertising set handle allocated from Bluetooth stack.
 static uint8_t advertising_set_handle = 0xff;
 
@@ -87,6 +94,13 @@ SL_WEAK void app_process_action(void)
 static uint8_t connection_handle = SL_BT_INVALID_CONNECTION_HANDLE;
 
 void timer_callback(sl_sleeptimer_timer_handle_t *handle, void *data){
+  uint8_t* ptr = data;
+  *ptr += 1;
+  app_log_info("%s: Timer step %d\n", __FUNCTION__, *ptr);
+  sl_bt_external_signal(TEMPERATURE_TIMER_SIGNAL);
+}
+
+void timer_callback_lux(sl_sleeptimer_timer_handle_t *handle, void *data){
   uint8_t* ptr = data;
   *ptr += 1;
   app_log_info("%s: Timer step %d\n", __FUNCTION__, *ptr);
@@ -154,19 +168,41 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     //////////////////////////////////////////////////////////////////////
     case sl_bt_evt_gatt_server_user_read_request_id:
       int32_t BLE_raw_temperature;
+      int32_t BLE_raw_uvi;
       size_t value_len = sizeof(BLE_raw_temperature);
       uint16_t sent_len;
 
       uint8_t chan = evt->data.evt_gatt_server_user_read_request.connection;
 
+      int16_t BLE_raw_lux;
+      size_t value_len_lux = sizeof(BLE_raw_lux);
+
       if(evt->data.evt_gatt_server_user_read_request.characteristic == gattdb_temperature) {
               app_log_info("%s: Temperature requested\n", __FUNCTION__);
               sl_status_t status = read_temperature(&BLE_raw_temperature);
-              app_log_info("%s: Read temperature: %d with status %lu\n", __FUNCTION__, BLE_raw_temperature, status);
+              app_log_info("%s: Read temperature: %ld with status %lu\n", __FUNCTION__, BLE_raw_temperature, status);
               app_log_info("%s: Handler = 0x%x\n", __FUNCTION__, chan);
 
-              sc = sl_bt_gatt_server_send_user_read_response(chan, gattdb_temperature, 0, value_len, (uint8_t*) &BLE_raw_temperature, &sent_len);
-      }
+              sc = sl_bt_gatt_server_send_user_read_response(chan,
+                                                             gattdb_temperature,
+                                                             0, value_len,
+                                                             (uint8_t*) &BLE_raw_temperature,
+                                                             &sent_len);
+      }else
+      if(evt->data.evt_gatt_server_user_read_request.characteristic == gattdb_irradiance) {
+              app_log_info("%s: Irradiance requested\n", __FUNCTION__);
+              sl_status_t status = read_irradiance(&BLE_raw_lux, &BLE_raw_uvi);
+              app_log_info("%s: Read irradiance: %ld, UV = %ld with status %lu\n", __FUNCTION__, BLE_raw_lux, BLE_raw_uvi, status);
+              app_log_info("%s: Handler = 0x%x\n", __FUNCTION__, chan);
+
+              BLE_raw_lux = BLE_raw_lux/LUX_TO_WATT_M2_DIVISOR;
+
+              sc = sl_bt_gatt_server_send_user_read_response(chan,
+                                                             gattdb_irradiance,
+                                                             0, value_len_lux,
+                                                             (uint8_t*) &BLE_raw_lux,
+                                                             &sent_len);
+            }
 
 
       break;
@@ -174,7 +210,8 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
       notify_mode = !notify_mode;
       app_log_info("NOTIFY triggered\n");
 
-      if(evt->data.evt_gatt_server_characteristic_status.characteristic == gattdb_temperature && evt->data.evt_gatt_server_characteristic_status.status_flags == 0x1) {
+      if(evt->data.evt_gatt_server_characteristic_status.characteristic == gattdb_temperature &&
+          evt->data.evt_gatt_server_characteristic_status.status_flags == sl_bt_gatt_server_notification) {
           app_log_info("NOTIFY on temperature\n");
           app_log_info("\t status flags : %x\n", evt->data.evt_gatt_server_characteristic_status.status_flags);
 
@@ -182,6 +219,15 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
           if(notify_mode) sl_sleeptimer_start_periodic_timer_ms(&handle, 1000, timer_callback, &step, 0, 0);
           else  sl_sleeptimer_stop_timer(&handle);
 
+      }
+      else if(evt->data.evt_gatt_server_characteristic_status.characteristic == gattdb_irradiance &&
+          evt->data.evt_gatt_server_characteristic_status.status_flags == sl_bt_gatt_server_notification) {
+          app_log_info("NOTIFY on irradiance\n");
+          app_log_info("\t status flags : %x\n", evt->data.evt_gatt_server_characteristic_status.status_flags);
+
+          app_log_info("NOTIFY status: %d\n", notify_mode);
+          if(notify_mode) sl_sleeptimer_start_periodic_timer_ms(&handle, 1000, timer_callback_lux, &step, 0, 0);
+          else  sl_sleeptimer_stop_timer(&handle);
       } else {
           app_log_info("Wrong characteristic : %d\n"
               "or wrong status flag : %x\n",
@@ -191,24 +237,33 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
     case sl_bt_evt_system_external_signal_id :
       sl_status_t notification_status;
       int32_t notif_temp;
+      int32_t notif_lux;
+      int32_t notif_uvi;
       int value_size = sizeof(notif_temp);
+      int value_size_lux = sizeof(notif_lux);
 
       //Lecture de la température
       sl_status_t status = read_temperature(&notif_temp);
+      sl_status_t status_lux = read_irradiance(&notif_lux, &notif_uvi);
 
+      notif_lux = notif_lux/LUX_TO_WATT_M2_DIVISOR;
       //Envoi de la notification
       if (evt->data.evt_system_external_signal.extsignals == TEMPERATURE_TIMER_SIGNAL) {
         notification_status = sl_bt_gatt_server_send_notification(connection_handle, gattdb_temperature, value_size,(uint8_t*) &notif_temp);
-        if (notification_status == SL_STATUS_OK) app_log_info("Temperature notification send : %ld\n", notif_temp);
+        if (notification_status == SL_STATUS_OK) app_log_info("Temperature notification send : %ld | status = %lu\n", notif_temp, status);
+      }if (evt->data.evt_system_external_signal.extsignals == LUMINANCE_TIMER_SIGNAL ) {
+          notification_status = sl_bt_gatt_server_send_notification(connection_handle, gattdb_irradiance, value_size_lux,(uint8_t*) &notif_lux);
+          if (notification_status == SL_STATUS_OK) app_log_info("Luminance notification send : %ld, UV = %ld | status = %lu\n", notif_lux*LUX_TO_WATT_M2_DIVISOR, notif_uvi, status_lux);
       }
       break;
     case sl_bt_evt_gatt_server_user_write_request_id :
       uint8_t digital;
+      //uint8_t opcode;
       const uint8array *write_value = &evt->data.evt_gatt_server_user_write_request.value;//Q23
 
       digital = write_value->data[0];
       app_log_info("Write requested : %d\n", (int)digital);
-      sl_simple_led_init_instances();
+      sl_simple_led_init_instances();//optionel
 
       switch (digital){//Q27
         case 0 ://Inactive
@@ -224,11 +279,48 @@ void sl_bt_on_event(sl_bt_msg_t *evt)
           break;
       }
 
-      sc = sl_bt_gatt_server_send_user_write_response(
-        evt->data.evt_gatt_server_user_write_request.connection,
-        evt->data.evt_gatt_server_user_write_request.characteristic,
-        0
-      );
+      switch (evt->data.evt_gatt_server_user_write_request.att_opcode) {//Q32
+        case sl_bt_gatt_write_request:
+          //request
+          app_log_info("write request\n");
+          sc = sl_bt_gatt_server_send_user_write_response(
+              evt->data.evt_gatt_server_user_write_request.connection,
+              evt->data.evt_gatt_server_user_write_request.characteristic,
+              0
+          );
+          break;
+        case sl_bt_gatt_write_command:
+          //command
+          app_log_info("write command\n");
+          break;
+        case sl_bt_gatt_write_response:
+          //response
+          app_log_info("write response\n");
+          break;
+        default:
+          //default
+          app_log_info("default\n");
+          break;
+
+      }
+
+
+//      sl_bt_evt_gatt_server_user_write_request_s(
+//          handle,
+//          &evt->data.evt_gatt_server_user_write_request.characteristic,
+//          sl_bt_gatt_write_response,
+//          0,
+//          write_value
+//      );
+
+
+//      sc = sl_bt_gatt_server_send_user_write_response(
+//        evt->data.evt_gatt_server_user_write_request.connection,
+//        evt->data.evt_gatt_server_user_write_request.characteristic,
+//        0
+//      );
+
+      //app_log_info("%s\n", opcode);
       break;
       // -------------------------------
     // Default event handler.
